@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Container, CustomLink } from './styles';
 import CustomInput from '../../components/input/index';
 import CustomButton from '../../components/button/index';
 import { useForm } from 'react-hook-form';
+import api from '../../services/api';
+import { useHistory } from 'react-router-dom';
 
 const Register = () => {
   const { register, handleSubmit, errors } = useForm();
+  const history = useHistory();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const onSubmit = useCallback(
+    async(data) => {
+      try{
+        await api.post('/users', data);
+        
+        history.push('/');
+      }catch(err) {
+        console.log(err)
+      }
+    }, []
+  );
 
   return (
     <Container>
@@ -57,7 +68,9 @@ const Register = () => {
           text="Cadastrar" 
         />
         
-        <CustomLink>Fazer Login</CustomLink>
+        <CustomLink to="/">
+          Fazer Login
+        </CustomLink>
       </form>
     </Container>
   )

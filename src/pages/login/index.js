@@ -1,16 +1,31 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Container, CustomLink } from './styles';
 import CustomInput from '../../components/input/index';
 import CustomButton from '../../components/button/index';
 import { useForm } from 'react-hook-form';
-
+import { useAuth } from '../../hooks/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
   const { register, handleSubmit, errors } = useForm();
+  const {login} = useAuth();
+  const history = useHistory();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const onSubmit = useCallback(
+    async(data) => {
+      try{
+        await login({
+          email: data.email,
+          password: data.password,
+        });
+
+        history.push('/survey');
+      }catch(err) {
+        console.log(err);
+      }
+
+    }, [login, history]
+  )
 
   return (
     <Container>
@@ -47,7 +62,9 @@ const Login = () => {
           text="Entrar"
         />
 
-        <CustomLink>Criar conta</CustomLink>
+        <CustomLink to="/register">
+          Criar conta
+        </CustomLink>
       </form>
     </Container>
   )

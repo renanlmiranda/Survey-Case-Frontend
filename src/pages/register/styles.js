@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import  { Link } from '@material-ui/core';
+import  { Link } from 'react-router-dom';
 
 export const Container = styled.div `
   display: flex; 
@@ -25,4 +25,5 @@ export const Container = styled.div `
 export const CustomLink = styled(Link)`
   text-align: center;
   font-weight: bold;
+  text-decoration: none;
 `;
